@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Monad Mainnet Countdown</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body {
+      background: radial-gradient(ellipse at center, #0f0f0f 0%, #000000 100%);
+      overflow: hidden;
+    }
+    .glow-text {
+      color: #bb86fc;
+      text-shadow: 0 0 8px #bb86fc, 0 0 16px #9c27b0, 0 0 32px #7b1fa2;
+    }
+    .glow-box {
+      box-shadow: 0 0 15px #bb86fc, 0 0 30px #9c27b0;
+      border: 2px solid #bb86fc;
+    }
+    .fade-in {
+      animation: fadeIn 2s ease-in-out;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .stars {
+      position: absolute;
+      width: 2px;
+      height: 2px;
+      background: white;
+      border-radius: 50%;
+      animation: blink 2s infinite ease-in-out;
+    }
+    @keyframes blink {
+      0%, 100% { opacity: 0.1; }
+      50% { opacity: 1; }
+    }
+  </style>
+</head>
+<body class="text-white font-mono flex flex-col min-h-screen relative">
+
+  <!-- Random star background -->
+  <script>
+    for (let i = 0; i < 100; i++) {
+      const star = document.createElement('div');
+      star.classList.add('stars');
+      star.style.top = `${Math.random() * 100}%`;
+      star.style.left = `${Math.random() * 100}%`;
+      star.style.animationDuration = `${1 + Math.random() * 2}s`;
+      document.body.appendChild(star);
+    }
+  </script>
+
+  <!-- Floating background images -->
+  <div class="absolute top-0 left-0 w-full h-full pointer-events-none overflow-hidden z-0">
+    <img src="backgrounds/background1.jpg" alt="Background 1" class="absolute" style="top: 5%; left: 5%; width: 150px; opacity: 0.15;" />
+    <img src="backgrounds/background2.jpg" alt="Background 2" class="absolute" style="top: 20%; left: 70%; width: 180px; opacity: 0.1;" />
+    <img src="backgrounds/background3.jpg" alt="Background 3" class="absolute" style="top: 40%; left: 30%; width: 130px; opacity: 0.12;" />
+    <img src="backgrounds/background4.jpg" alt="Background 4" class="absolute" style="top: 60%; left: 80%; width: 160px; opacity: 0.1;" />
+    <img src="backgrounds/background5.jpg" alt="Background 5" class="absolute" style="top: 75%; left: 20%; width: 140px; opacity: 0.15;" />
+    <img src="backgrounds/background6.jpg" alt="Background 6" class="absolute" style="top: 10%; left: 50%; width: 120px; opacity: 0.1;" />
+    <img src="backgrounds/background7.jpg" alt="Background 7" class="absolute" style="top: 50%; left: 20%; width: 110px; opacity: 0.12;" />
+    <img src="backgrounds/background8.jpg" alt="Background 8" class="absolute" style="top: 10%; left: 90%; width: 140px; opacity: 0.1;" />
+    <img src="backgrounds/background9.jpg" alt="Background 9" class="absolute" style="top: 85%; left: 60%; width: 150px; opacity: 0.15;" />
+    <img src="backgrounds/background10.jpg" alt="Background 10" class="absolute" style="top: 15%; left: 35%; width: 170px; opacity: 0.1;" />
+    <img src="backgrounds/background11.jpg" alt="Background 11" class="absolute" style="top: 25%; left: 15%; width: 160px; opacity: 0.13;" />
+    <img src="backgrounds/background12.jpg" alt="Background 12" class="absolute" style="top: 45%; left: 65%; width: 150px; opacity: 0.1;" />
+    <img src="backgrounds/background13.jpg" alt="Background 13" class="absolute" style="top: 70%; left: 40%; width: 140px; opacity: 0.14;" />
+    <img src="backgrounds/background14.jpg" alt="Background 14" class="absolute" style="top: 60%; left: 5%; width: 170px; opacity: 0.12;" />
+    <img src="backgrounds/background15.jpg" alt="Background 15" class="absolute" style="top: 35%; left: 85%; width: 130px; opacity: 0.1;" />
+  </div>
+
+  <!-- Centered Countdown Content -->
+  <main class="flex-grow flex items-center justify-center z-10">
+    <div class="text-center space-y-8 fade-in px-4">
+      <h1 class="text-4xl sm:text-6xl font-bold glow-text">Monad Mainnet Countdown</h1>
+
+      <div id="countdown" class="flex justify-center gap-6 text-2xl sm:text-4xl">
+        <div class="glow-box px-4 py-2 rounded-xl text-center"><span id="days">--</span><div class="text-sm mt-1">Days</div></div>
+        <div class="glow-box px-4 py-2 rounded-xl text-center"><span id="hours">--</span><div class="text-sm mt-1">Hours</div></div>
+        <div class="glow-box px-4 py-2 rounded-xl text-center"><span id="minutes">--</span><div class="text-sm mt-1">Minutes</div></div>
+        <div class="glow-box px-4 py-2 rounded-xl text-center"><span id="seconds">--</span><div class="text-sm mt-1">Seconds</div></div>
+      </div>
+
+      <div class="space-x-4">
+        <a href="https://discord.gg/monad" target="_blank" class="border border-purple-400 hover:bg-purple-700 px-4 py-2 rounded-xl glow-box transition">Monad Discord</a>
+        <a href="https://x.com/monad" target="_blank" class="border border-purple-400 hover:bg-purple-700 px-4 py-2 rounded-xl glow-box transition">Monad on X</a>
+      </div>
+    </div>
+  </main>
+
+  <!-- Countdown Script -->
+  <script>
+    const targetDate = new Date("2025-09-30T00:00:00Z").getTime();
+
+    function updateCountdown() {
+      const now = new Date().getTime();
+      const diff = targetDate - now;
+
+      if (diff <= 0) {
+        document.getElementById("countdown").innerHTML = "<span class='text-green-400 text-4xl'>Mainnet is Live!</span>";
+        return;
+      }
+
+      const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+      const minutes = Math.floor((diff / (1000 * 60)) % 60);
+      const seconds = Math.floor((diff / 1000) % 60);
+
+      document.getElementById("days").textContent = days;
+      document.getElementById("hours").textContent = hours;
+      document.getElementById("minutes").textContent = minutes;
+      document.getElementById("seconds").textContent = seconds;
+    }
+
+    updateCountdown();
+    setInterval(updateCountdown, 1000);
+  </script>
+
+  <!-- Footer -->
+  <footer class="w-full text-center text-sm text-gray-400 py-6 z-10 relative">
+    © Monad Mainnet Countdown.
+  </footer>
+
+</body>
+</html>
